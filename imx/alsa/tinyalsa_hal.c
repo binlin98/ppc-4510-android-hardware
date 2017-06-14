@@ -16,7 +16,7 @@
 /* Copyright (C) 2012-2016 Freescale Semiconductor, Inc. */
 
 #define LOG_TAG "audio_hw_primary"
-//#define LOG_NDEBUG 0
+#define LOG_NDEBUG 0
 
 #include <errno.h>
 #include <pthread.h>
@@ -48,6 +48,8 @@
 #include "config_cs42888.h"
 #include "config_wm8960.h"
 #include "config_sii902x.h"
+#include "config_rt5631.h"
+#include "config_sgtl5000.h"
 
 #ifdef BRILLO
 #define PCM_HW_PARAM_ACCESS 0
@@ -120,8 +122,8 @@
 
 /*"null_card" must be in the end of this array*/
 struct audio_card *audio_card_list[SUPPORT_CARD_NUM] = {
-    &wm8958_card,
-    &wm8962_card,
+    &rt5631_card,
+    &sgtl5000_card,
     &hdmi_card,
     &usbaudio_card,
     &spdif_card,
