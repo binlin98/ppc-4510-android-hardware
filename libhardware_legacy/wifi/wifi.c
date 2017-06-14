@@ -100,10 +100,10 @@ static char primary_iface[PROPERTY_VALUE_MAX];
 
 static const char IFACE_DIR[]           = "/data/system/wpa_supplicant";
 #ifdef WIFI_DRIVER_MODULE_PATH
-static const char DRIVER_MODULE_NAME[]  = WIFI_DRIVER_MODULE_NAME;
+static char DRIVER_MODULE_NAME[PROPERTY_VALUE_MAX]  = WIFI_DRIVER_MODULE_NAME;
 static const char DRIVER_MODULE_TAG[]   = WIFI_DRIVER_MODULE_NAME " ";
-static const char DRIVER_MODULE_PATH[]  = WIFI_DRIVER_MODULE_PATH;
-static const char DRIVER_MODULE_ARG[]   = WIFI_DRIVER_MODULE_ARG;
+static char DRIVER_MODULE_PATH[PROPERTY_VALUE_MAX]  = WIFI_DRIVER_MODULE_PATH;
+static char DRIVER_MODULE_ARG[PROPERTY_VALUE_MAX]   = WIFI_DRIVER_MODULE_ARG;
 #endif
 static const char FIRMWARE_LOADER[]     = WIFI_FIRMWARE_LOADER;
 static const char DRIVER_PROP_NAME[]    = "wlan.driver.status";
@@ -261,6 +261,8 @@ int wifi_load_driver()
         return 0;
     }
 
+    property_get("wlan.driver.path", DRIVER_MODULE_PATH, NULL);
+    property_get("wlan.driver.arg", DRIVER_MODULE_ARG, NULL);
     if (insmod(DRIVER_MODULE_PATH, DRIVER_MODULE_ARG) < 0)
         return -1;
 
@@ -304,6 +306,7 @@ int wifi_unload_driver()
 {
     usleep(200000); /* allow to finish interface down */
 #ifdef WIFI_DRIVER_MODULE_PATH
+    property_get("wlan.driver.name", DRIVER_MODULE_NAME, NULL);
     if (rmmod(DRIVER_MODULE_NAME) == 0) {
         int count = 20; /* wait at most 10 seconds for completion */
         while (count-- > 0) {
@@ -494,7 +497,7 @@ int wifi_start_supplicant(int p2p_supported)
     if (pi != NULL) {
         serial = __system_property_serial(pi);
     }
-    property_get("wifi.interface", primary_iface, WIFI_TEST_INTERFACE);
+    property_get("wlan.interface", primary_iface, WIFI_TEST_INTERFACE);
 
     property_set("ctl.start", supplicant_name);
     sched_yield();
