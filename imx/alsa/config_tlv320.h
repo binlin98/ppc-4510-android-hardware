@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2011 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,95 +13,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-/* Copyright (C) 2016 Freescale Semiconductor, Inc. */
+/* Copyright (C) 2012 Freescale Semiconductor, Inc. */
 
-#ifndef ANDROID_INCLUDE_IMX_CONFIG_TLV320_H
-#define ANDROID_INCLUDE_IMX_CONFIG_TLV320_H
+#ifndef ANDROID_INCLUDE_IMX_CONFIG_TLV320AIC3X_H
+#define ANDROID_INCLUDE_IMX_CONFIG_TLV320AIC3X_H
 
 #include "audio_hardware.h"
 
-#define PCM_PLAYBAK_VOLUME                  "PCM Playback Volume"
-#define HEADPHONE_PLAYBACK_VOLUME           "Headphone Playback Volume"
-#define HEADPHONE_PLAYBACK_ZC_SWITCH        "Headphone Playback ZC Switch"
-#define HEADPHONE_MUX                       "Headphone Mux"
+#define MIXER_TLV320AIC3X_JACK_FUNCTION                  "Jack Function"
+#define MIXER_TLV320AIC3X_SPEAKER_VOLUME                 "PCM Playback Volume"
+#define MIXER_TLV320AIC3X_HP_DAC_VOLUME		 	 "HP DAC Playback Volume"
 
-#define CAPTURE_VOLUME                      "Capture Volume"
-#define CAPTURE_ATNT_SWITCH                 "Capture Attenuate Switch (-6dB)"
-#define MIC_VOLUME                          "Mic Volume"
-#define CAPTURE_MUX                         "Capture Mux"
-
-static struct route_setting speaker_output_tlv320[] = {
+/* These are values that never change */
+static struct route_setting defaults_TLV320AIC3X[] = {
+    /* general */
     {
-        .ctl_name = PCM_PLAYBAK_VOLUME,
-        .intval = 174,
-    },
-    {
-        .ctl_name = HEADPHONE_PLAYBACK_VOLUME,
-        .intval = 103,
-    },
-    {
-        .ctl_name = HEADPHONE_PLAYBACK_ZC_SWITCH,
+        .ctl_name = MIXER_TLV320AIC3X_JACK_FUNCTION,
         .intval = 1,
     },
     {
-        .ctl_name = HEADPHONE_MUX,
-        .strval = "DAC",
+        .ctl_name = MIXER_TLV320AIC3X_SPEAKER_VOLUME,
+        .intval = 120,
+    },
+    {
+        .ctl_name = MIXER_TLV320AIC3X_HP_DAC_VOLUME,
+        .intval = 118,
     },
     {
         .ctl_name = NULL,
     },
 };
-
-static struct route_setting mm_main_mic_input_tlv320[] = {
-    {
-        .ctl_name = CAPTURE_VOLUME,
-        .intval = 15,
-    },
-    {
-        .ctl_name = CAPTURE_ATNT_SWITCH,
-        .intval = 0,
-    },
-    {
-        .ctl_name = MIC_VOLUME,
-        .intval = 0,
-    },
-    {
-        .ctl_name = CAPTURE_MUX,
-        .strval = "MIC_IN",
-    },
-
-    {
-        .ctl_name = NULL,
-    },
-};
-
 
 /* ALSA cards for IMX, these must be defined according different board / kernel config*/
-static struct audio_card  tlv320_card = {
-    .name = "tlv320-audio",
-    .driver_name = "tlv320-audio",
-    .supported_out_devices = (AUDIO_DEVICE_OUT_EARPIECE |
-            AUDIO_DEVICE_OUT_SPEAKER |
-            AUDIO_DEVICE_OUT_WIRED_HEADSET |
+static struct audio_card  tlv320aic3x_card = {
+    .name = "tlv320aic3x-audio",
+    .driver_name = "tlv320aic3x-aud",
+    .supported_out_devices = (
             AUDIO_DEVICE_OUT_WIRED_HEADPHONE |
-            AUDIO_DEVICE_OUT_ANLG_DOCK_HEADSET |
-            AUDIO_DEVICE_OUT_ALL_SCO |
+            AUDIO_DEVICE_OUT_SPEAKER |
             AUDIO_DEVICE_OUT_DEFAULT ),
     .supported_in_devices = (
-            AUDIO_DEVICE_IN_COMMUNICATION |
-            AUDIO_DEVICE_IN_AMBIENT |
-            AUDIO_DEVICE_IN_BUILTIN_MIC |
             AUDIO_DEVICE_IN_WIRED_HEADSET |
-            AUDIO_DEVICE_IN_BACK_MIC |
-            AUDIO_DEVICE_IN_ALL_SCO |
+            AUDIO_DEVICE_IN_BUILTIN_MIC |
             AUDIO_DEVICE_IN_DEFAULT),
-    .defaults            = NULL,
+    .defaults            = defaults_TLV320AIC3X,
     .bt_output           = NULL,
-    .speaker_output      = speaker_output_tlv320,
+    .speaker_output      = defaults_TLV320AIC3X,
     .hs_output           = NULL,
-    .earpiece_output     = NULL,
+    .earpiece_output     = defaults_TLV320AIC3X,
     .vx_hs_mic_input     = NULL,
-    .mm_main_mic_input   = mm_main_mic_input_tlv320,
+    .mm_main_mic_input   = NULL,
     .vx_main_mic_input   = NULL,
     .mm_hs_mic_input     = NULL,
     .vx_bt_mic_input     = NULL,
@@ -115,4 +76,4 @@ static struct audio_card  tlv320_card = {
     .in_format           = 0,
 };
 
-#endif  /* ANDROID_INCLUDE_IMX_CONFIG_TLV320_H */
+#endif  /* ANDROID_INCLUDE_IMX_CONFIG_TLV320AIC3X_H */

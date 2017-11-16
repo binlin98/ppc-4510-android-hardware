@@ -123,7 +123,7 @@
 
 /*"null_card" must be in the end of this array*/
 struct audio_card *audio_card_list[SUPPORT_CARD_NUM] = {
-    &tlv320_card,
+    &tlv320aic3x_card,
     &hdmi_card,
     &usbaudio_card,
     &spdif_card,
