@@ -143,6 +143,7 @@ static int op(bt_vendor_opcode_t opcode, void *param)
                     upio_set_bluetooth_power(UPIO_BT_POWER_OFF);
                 else if (*state == BT_VND_PWR_ON)
                     upio_set_bluetooth_power(UPIO_BT_POWER_ON);
+		  usleep(200000);
             }
             break;
 

@@ -52,7 +52,7 @@
 ******************************************************************************/
 
 #ifndef BTHW_DBG
-#define BTHW_DBG FALSE
+#define BTHW_DBG TRUE
 #endif
 
 #if (BTHW_DBG == TRUE)
@@ -629,6 +629,7 @@ void hw_config_cback(void *p_mem)
     status = *((uint8_t *)(p_evt_buf + 1) + HCI_EVT_CMD_CMPL_STATUS_RET_BYTE);
     p = (uint8_t *)(p_evt_buf + 1) + HCI_EVT_CMD_CMPL_OPCODE;
     STREAM_TO_UINT16(opcode,p);
+    ALOGI("bt vendor lib: set UART baud------------------------");
 
     /* Ask a new buffer big enough to hold any HCI commands sent in here */
     if ((status == 0) && bt_vendor_cbacks)

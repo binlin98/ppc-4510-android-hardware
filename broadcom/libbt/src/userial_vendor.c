@@ -316,6 +316,8 @@ void userial_vendor_set_baud(uint8_t userial_baud)
 {
     uint32_t tcio_baud;
 
+    usleep(200000); 
+
     userial_to_tcio_baud(userial_baud, &tcio_baud);
 
     cfsetospeed(&vnd_userial.termios, tcio_baud);
