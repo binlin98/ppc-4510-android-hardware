@@ -16,7 +16,7 @@
 /* Copyright (C) 2012-2016 Freescale Semiconductor, Inc. */
 
 #define LOG_TAG "audio_hw_primary"
-#define LOG_NDEBUG 0
+#define LOG_NDEBUG 1
 
 #include <errno.h>
 #include <pthread.h>
@@ -50,6 +50,7 @@
 #include "config_sii902x.h"
 #include "config_rt5631.h"
 #include "config_sgtl5000.h"
+#include "config_rt5640.h"
 
 #ifdef BRILLO
 #define PCM_HW_PARAM_ACCESS 0
@@ -122,7 +123,8 @@
 
 /*"null_card" must be in the end of this array*/
 struct audio_card *audio_card_list[SUPPORT_CARD_NUM] = {
-    &rt5631_card,
+    &rt5640_card,
+    //&rt5631_card,
     &sgtl5000_card,
     &hdmi_card,
     &usbaudio_card,
@@ -544,8 +546,18 @@ static int start_output_stream_primary(struct imx_stream_out *out)
     int pcm_device;
     bool success = false;
 
-    ALOGI("start_output_stream... %d, device %d",(int)out, out->device);
-
+	ALOGI("start_output_stream... %d, device %d",(int)out, out->device);
+	
+	//start add ben
+	#if 0
+	struct mixer_ctl *ctl = NULL;
+	ctl = mixer_get_ctl_by_name(adev->mixer[0], "Speaker R Playback Switch");
+	mixer_ctl_set_value(ctl, 0, 1);
+	ctl = mixer_get_ctl_by_name(adev->mixer[0], "Speaker L Playback Switch");
+	mixer_ctl_set_value(ctl, 0, 1);
+    ALOGI("start_output_stream1... %d, device %d",(int)out, out->device);
+	#endif
+	
     if (adev->mode != AUDIO_MODE_IN_CALL) {
         /* FIXME: only works if only one output can be active at a time */
         select_output_device(adev);
@@ -947,7 +959,16 @@ static int do_output_standby(struct imx_stream_out *out)
         }
 
         ALOGW("do_out_standby... %d",(int)out);
-
+		//start add ben
+		#if 0
+		struct mixer_ctl *ctl = NULL;
+		ctl = mixer_get_ctl_by_name(adev->mixer[0], "Speaker R Playback Switch");
+		mixer_ctl_set_value(ctl, 0, 0);
+		ctl = mixer_get_ctl_by_name(adev->mixer[0], "Speaker L Playback Switch");
+		mixer_ctl_set_value(ctl, 0, 0);
+		ALOGW("do_out_standby1... %d",(int)out);
+		#endif
+	
         /* if in call, don't turn off the output stage. This will
         be done when the call is ended */
         if (adev->mode != AUDIO_MODE_IN_CALL) {
