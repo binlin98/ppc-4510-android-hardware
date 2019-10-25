@@ -40,6 +40,40 @@ static struct route_setting defaults_TLV320AIC3X[] = {
         .intval = 118,
     },
     {
+        .ctl_name = "Line DAC Playback Volume",
+        .intval = {100,100},
+    },	
+    {
+        .ctl_name = NULL,
+    },
+};
+
+static struct route_setting mm_main_mic_input_TLV320AIC3X[] = {
+    {
+        .ctl_name = "Right PGA Mixer Mic3L Switch",
+        .intval = 1,
+    },
+    {
+        .ctl_name = "Right PGA Mixer Mic3R Switch",
+        .intval = 1,
+    },
+    {
+        .ctl_name = "Left PGA Mixer Mic3L Switch",
+        .intval = 1,
+    },
+    {
+        .ctl_name = "Left PGA Mixer Mic3R Switch",
+        .intval = 1,
+    },
+    {
+        .ctl_name = "PGA Capture Volume",
+        .intval = {50,50},
+    },
+    //{
+    //    .ctl_name = "Line DAC Playback Volume",
+    //    .intval = {100,100},
+    //},		
+    {
         .ctl_name = NULL,
     },
 };
@@ -62,7 +96,7 @@ static struct audio_card  tlv320aic3x_card = {
     .hs_output           = NULL,
     .earpiece_output     = defaults_TLV320AIC3X,
     .vx_hs_mic_input     = NULL,
-    .mm_main_mic_input   = NULL,
+    .mm_main_mic_input   = mm_main_mic_input_TLV320AIC3X,
     .vx_main_mic_input   = NULL,
     .mm_hs_mic_input     = NULL,
     .vx_bt_mic_input     = NULL,
